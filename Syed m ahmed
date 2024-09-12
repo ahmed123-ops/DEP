@@ -1,0 +1,64 @@
+https://github.com/ahmed123-ops/DEP.git
+
+blue):
+pile = random.choice(['red', 'blue'])
+if pile == 'red':
+marbles = random.randint(1,red)
+else:
+marbles = random.randint(1,blue)
+print(f"Computer chose {marbles} {pile} marbles")
+
+if pile == 'red':
+red -= marbles
+else:
+blue -= marbles
+
+return red,blue
+
+# Main function to play Nim
+def play_nim(red, blue):
+print("Welcome to Nim game!")
+print("You need to remove either one or more marbles from a single pile at your turn. The player who takes the last marble loses in standard version, but wins in misere version.")
+while red > 0 and blue > 0:
+# User turn
+red, blue = human_move(red, blue)
+display_piles(red, blue)
+
+# Computer turn
+if red > 0 and blue > 0:
+red, blue = computer_move(red, blue)
+display_piles(red, blue)
+
+2.2 Code Listing
+
+import random
+
+# Function to display the current state of the piles
+def display_piles(red, blue):
+print(f"Red marbles: {red}, Blue marbles: {blue}")
+
+def get_user_input():
+pile = input("Choose a pile (red or blue): ").strip().lower()
+while pile not in ['red', 'blue']:
+pile = input("Invalid choice! Choose either 'red' or 'blue': ").strip().lower()
+
+marbles = int(input(f"How many marbles to remove from {pile}? "))
+while marbles < 1:
+marbles = int(input("You must remove at least one marble. Try again: "))
+
+return pile, marbles
+
+# Function for human player to make a move
+def human_move(red, blue):
+pile, marbles = get_user_input()
+if pile == 'red' and marbles <= red:
+red -= marbles
+elif pile == 'blue' and marbles <= blue:
+blue -= marbles
+else:
+print(f"Invalid move! Cannot remove {marbles} marbles from {pile}. Try again.")
+return human_move(red, blue) # Retry human move
+return red, blue
+
+# Simple AI (random move)
+def computer_move(red, blue):
